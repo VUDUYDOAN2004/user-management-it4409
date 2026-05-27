@@ -177,8 +177,8 @@
         if (!validate()) return;
         
         const url = user 
-            ? `http://localhost:3001/api/users/${user._id}` 
-            : `http://localhost:3001/api/users`;
+            ? `https://backend-20225178.onrender.com/api/users/${user._id}` 
+            : `https://backend-20225178.onrender.com/api/users`;
         const method = user ? "PUT" : "POST";
 
         fetch(url, {
@@ -198,6 +198,8 @@
         .catch(err => {
             if (err.message.includes("đã được sử dụng")) {
                 setErrors(prev => ({ ...prev, email: err.message }));
+            } else if (err.message === "Failed to fetch" || err.name === "TypeError") {
+                alert("Không kết nối được Cơ sở dữ liệu");
             } else {
                 alert("Lỗi: " + err.message);
             }
@@ -243,7 +245,7 @@
       const [editingUser, setEditingUser] = React.useState(null);
 
       const fetchUsers = () => {
-        const url = `http://localhost:3001/api/users?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`;
+        const url = `https://backend-20225178.onrender.com/api/users?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`;
         fetch(url)
           .then(res => res.json())
           .then(data => {
@@ -271,7 +273,7 @@
       }
 
       const deleteUser = (id) => {
-        fetch(`http://localhost:3001/api/users/${id}`, { method: "DELETE" })
+        fetch(`https://backend-20225178.onrender.com/api/users/${id}`, { method: "DELETE" })
           .then(async res => {
               const data = await res.json();
               if (!res.ok) throw new Error(data.error || "Không thể xóa");
